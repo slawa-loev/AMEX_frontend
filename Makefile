@@ -80,7 +80,7 @@ install_requirements:
 # ----------------------------------
 
 streamlit:
-	-@streamlit run frontend/app.py
+	-@streamlit run app.py
 
 heroku_login:
 
