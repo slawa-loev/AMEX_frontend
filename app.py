@@ -4,12 +4,6 @@ from PIL import Image
 from pandas import read_csv
 import requests
 
-# json_url = ''
-# requests.get(json_url, )
-
-api_json_data = {'customer_ID': 'abc123customer',
-                'output': 'defaulter',
-                'probability': '99.9'}
 
 '''
 # Is your customer a Defaulter?!
@@ -27,16 +21,34 @@ st.write('\n\n-------------')
 
 with st.form("my_form"):
 
-    csv_file = st.file_uploader("Upload a customer CSV File",type=['csv'], )
+    uploaded_csv_file = st.file_uploader("Upload a customer CSV File",type=['csv'], )
 
     submitted = st.form_submit_button("Get prediction!")
 
+
+
+
 if submitted:
+
+    # url_predict = ''
+    if uploaded_csv_file == None:
+        params_user = 'No CSV uploaded'
+    else:
+        params_user = read_csv(uploaded_csv_file).to_dict(orient='records')
+
+    # predictions = requests.get(url_predict,
+    #                            params = params_user[0]).json()
+
+
+    json_url = 'https://amex-api-generator.herokuapp.com/'
+    api_json_data = requests.get(json_url).json()
+
     st.write('-------------',
              '\n\nThank you for submitting',
              f'\n\nYour customer with customer_ID: {api_json_data["customer_ID"]} must be a {api_json_data["output"]}!!!!',
-             f'\n\nWith probability of {api_json_data["probability"]} %',
-             '\n\n-------------')
+             f'\n\nWith probability of {float(api_json_data["probability"])*100} %',
+             '\n\n-------------',
+             f'\n\n{params_user}')
 
 
 isis_img = Image.open('team_imgs/isis.jpeg')
