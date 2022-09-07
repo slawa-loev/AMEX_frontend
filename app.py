@@ -5,31 +5,62 @@ from pandas import read_csv
 import requests
 import json
 
-#st.set_page_config(page_title="Monte Carlo Pi", page_icon='🔢',layout="wide")
+#col1, col2, col3, col4, col5 = st.columns(5)
 
+st.set_page_config(page_title="AMEX Prophecy", page_icon='',layout="wide")
+
+amexblue = 'color: #006fcf;'
 font1 = 'font-family: Helvetica;'
 font2 = 'font-family: sans-serif;'
+font3 = 'font-family: Helvetica-Neue;'
+font4 = 'font-family: BentoSans;'
+font5 = 'font-family: Garamond;'
+amexlogofont = 'font-family: Handel Gothic D Bold;'
 
-st.markdown(f"<h1 style='text-align: center;{font1} color: #006fcf;'>Will your credit card customer pay you back?</h1>", unsafe_allow_html=True)
+col1, col2, col3, col4 = st.columns([1, 6, 1, 8])
 
-st.markdown(f"<h4 style='text-align: center;{font2} color: #334251;'>Dear American Express managment, </h4>", unsafe_allow_html=True)
-st.markdown(f"<h5 style='text-align: center;{font2} color: #334251;'>Please only upload a CSV file in the following format: </h5>", unsafe_allow_html=True)
+col2.markdown(f"<h3 style='text-align: center;{font5} {amexblue}'>AMEX Prophecy Team</h1>",
+              unsafe_allow_html=True)
+
+amex_logo = Image.open('team_imgs/amex_logo_cut.png')
+col2.image(amex_logo,
+           use_column_width=True,
+           #width=350,
+           #output_format='PNG'
+           )
+    # with open('template_csv/AMEX_user_template.csv') as f:
+    #     if st.download_button('Example template', f, 'example_template.csv'):
+    #         st.write('Thanks for downloading!')
 
 
-col1, col2, col3, col4, col5 = st.columns(5)
 
-with col3:
+#st.markdown(f"<h3 style='text-align: center;{font1} {amexblue}'>Will your credit card customer pay you back?</h1>", unsafe_allow_html=True)
 
-    with open('template_csv/AMEX_user_template.csv') as f:
-        if st.download_button('Example template', f, 'example_template.csv'):
-            st.write('Thanks for downloading!')
+#st.markdown(f"<h3 style='text-align: center;{font2} {amexblue}'>Will your credit card customer pay you back?</h1>", unsafe_allow_html=True)
 
-st.write('\n\n-------------')
+col4.markdown(f"<h4 style='text-align: center;{font5} {amexblue}'>Will your credit card customer pay you back?</h1>", unsafe_allow_html=True)
 
-amex_foto = Image.open('team_imgs/amex.png')
-st.image(amex_foto)
+#st.markdown(f"<h3 style='text-align: center;{font4} {amexblue}'>Will your credit card customer pay you back?</h1>", unsafe_allow_html=True)
 
-with st.form("my_form"):
+
+
+col4.markdown(f"<h5 style='text-align: center;{font2} color: #334251;'>Dear American Express managment, </h4>", unsafe_allow_html=True)
+col4.markdown(f"<h6 style='text-align: center;{font2} color: #334251;'>Please upload a CSV file in the following format: </h5>", unsafe_allow_html=True)
+
+
+
+#col1, col2, col3, col4, col5 = st.columns(5)
+#with col2:
+
+with open('template_csv/AMEX_user_template.csv') as f:
+    if col4.download_button('Example template', f, 'example_template.csv'):
+        col4.write('Thanks for downloading!')
+
+#st.write('\n\n-------------')
+
+
+
+with col4.form("my_form"):
 
     uploaded_csv_file = st.file_uploader("Upload a customer CSV File",
                                          type=['csv'],
@@ -54,18 +85,18 @@ if submitted:
                                     params = params_user).json()
 
 
-        st.markdown("<h3 style='text-align: center; color: white;'>Thank you for submitting</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center; color: black;'>Thank you for submitting</h3>", unsafe_allow_html=True)
         st.write('-------------')
-        st.markdown("<h5 style='text-align: center; color: white;'>Customer with ID:</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center; color: black;'>Customer with ID:</h5>", unsafe_allow_html=True)
 
         if predictions['output'] == 'defaulter':
 
             html_str_custID = f"<h6 style='text-align: center; color: grey;'>{predictions['customer_ID']}</h6>"
             st.markdown(html_str_custID, unsafe_allow_html=True)
-            st.markdown("<h5 style='text-align: center; color: white;'>Must be a ... </h5>", unsafe_allow_html=True)
-            html_str_output = f"<h3 style='text-align: center; color: red;'>{predictions['output']}</h3>"
+            st.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
+            html_str_output = f"<h3 style='text-align: center; color: red;'>not pay you back</h3>"
             st.markdown(html_str_output, unsafe_allow_html=True)
-            st.markdown("<h6 style='text-align: center; color: white;'>With probability of:</h6>", unsafe_allow_html=True)
+            st.markdown("<h6 style='text-align: center; color: black;'>With probability of:</h6>", unsafe_allow_html=True)
             html_str_proba = f"<h3 style='text-align: center; color: red;'>{float(predictions['probability'])*100} %</h3>"
             st.markdown(html_str_proba, unsafe_allow_html=True)
 
@@ -73,8 +104,8 @@ if submitted:
         else:
             html_str_custID = f"<h6 style='text-align: center; color: grey;'>{predictions['customer_ID']}</h6>"
             st.markdown(html_str_custID, unsafe_allow_html=True)
-            st.markdown("<h5 style='text-align: center; color: black;'>Must be a ... </h5>", unsafe_allow_html=True)
-            html_str_output = f"<h5 style='text-align: center; color: green;'>{predictions['output']}</h5>"
+            st.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
+            html_str_output = f"<h5 style='text-align: center; color: green;'>pay you back</h5>"
             st.markdown(html_str_output, unsafe_allow_html=True)
             st.markdown("<h6 style='text-align: center; color: black;'>With probability of:</h6>", unsafe_allow_html=True)
             html_str_proba = f"<h3 style='text-align: center; color: green;'>{float(predictions['probability'])*100} %</h3>"
