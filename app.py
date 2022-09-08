@@ -88,7 +88,7 @@ with col4.form("my_form"):
 default_shap = Image.open('team_imgs/sjoerd_shap_default.png')
 pay_shap = Image.open('team_imgs/slawa_shap_payer.png')
 
-col2, col1 = st.columns([2,1])
+col2, col1 = st.columns([3,5])
 
 if submitted:
 
@@ -104,34 +104,35 @@ if submitted:
         predictions = requests.get(url_api,
                                     params = params_user).json()
 
-
-        col2.markdown("<h3 style='text-align: center; color: black;'>Thank you for submitting</h3>", unsafe_allow_html=True)
-        st.write('-------------')
-
-        st.markdown("<h5 style='text-align: center; color: black;'>Potential customer:</h5>", unsafe_allow_html=True)
+        col1.write('-------------')
+        col1.markdown("<h3 style='text-align: center; color: black;'>Thank you for submitting!</h3>", unsafe_allow_html=True)
+        col1.write('-------------')
+        col1.markdown("<h5 style='text-align: center; color: black;'>Potential customer:</h5>", unsafe_allow_html=True)
 
         if predictions['output'] == 'defaulter':
 
             html_str_custID = f"<h6 style='text-align: center; color: grey;'>{uploaded_csv_file.name[:-4].replace('_',' ')}</h6>"
-            st.markdown(html_str_custID, unsafe_allow_html=True)
-            st.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
+            col1.markdown(html_str_custID, unsafe_allow_html=True)
+            col1.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
             html_str_output = f"<h3 style='text-align: center; color: red;'>not pay you back</h3>"
             col1.markdown(html_str_output, unsafe_allow_html=True)
             col1.markdown("<h6 style='text-align: center; color: black;'>With probability of:</h6>", unsafe_allow_html=True)
             html_str_proba = f"<h3 style='text-align: center; color: red;'>{float(predictions['probability'])*100} %</h3>"
             col1.markdown(html_str_proba, unsafe_allow_html=True)
+            col2.write('-------------')
             col2.image(default_shap, use_column_width=True)
 
         else:
 
             html_str_custID = f"<h6 style='text-align: center; color: grey;'>{uploaded_csv_file.name[:-4].replace('_',' ')}</h6>"
-            st.markdown(html_str_custID, unsafe_allow_html=True)
-            st.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
+            col1.markdown(html_str_custID, unsafe_allow_html=True)
+            col1.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
             html_str_output = f"<h5 style='text-align: center; color: green;'>pay you back</h5>"
             col1.markdown(html_str_output, unsafe_allow_html=True)
             col1.markdown("<h6 style='text-align: center; color: black;'>With probability of:</h6>", unsafe_allow_html=True)
             html_str_proba = f"<h3 style='text-align: center; color: green;'>{float(predictions['probability'])*100} %</h3>"
             col1.markdown(html_str_proba, unsafe_allow_html=True)
+            col2.write('-------------')
             col2.image(pay_shap, use_column_width=True)
 
 st.write('-------------')
