@@ -145,7 +145,7 @@ col2.markdown(f"<h1 style='text-align: center; color: {amexblue};'> </h1>", unsa
 col2.markdown(f"<h1 style='text-align: center; color: {amexblue};'> </h1>", unsafe_allow_html=True)
 
 
-col2.markdown(f"<h6 style='text-align: center; color: {amexblue};'>This wonderful predictor is brought to you by:</h6>", unsafe_allow_html=True)
+col2.markdown(f"<h6 style='text-align: center; color: {amexblue};'>Powered by</h6>", unsafe_allow_html=True)
 
 
 
