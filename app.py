@@ -7,7 +7,7 @@ import json
 
 #col1, col2, col3, col4, col5 = st.columns(5)
 
-st.set_page_config(page_title="AMEX Prophecy", page_icon='',layout="wide")
+st.set_page_config(page_title="AMEX Oracle", page_icon='',layout="wide")
 
 amexblue = 'color: #006fcf;'
 font1 = 'font-family: Helvetica;'
@@ -19,7 +19,7 @@ amexlogofont = 'font-family: Handel Gothic D Bold;'
 
 col1, col2, col3, col4 = st.columns([1, 6, 1, 8])
 
-col2.markdown(f"<h3 style='text-align: center;{font5} {amexblue}'>AMEX Prophecy Team</h1>",
+col2.markdown(f"<h3 style='text-align: center;{font5} {amexblue}'>AMEX Oracle Team</h1>",
               unsafe_allow_html=True)
 
 amex_logo = Image.open('team_imgs/amex_logo_cut.png')
@@ -49,12 +49,19 @@ col4.markdown(f"<h6 style='text-align: center;{font2} color: #334251;'>Please up
 
 
 
-#col1, col2, col3, col4, col5 = st.columns(5)
-#with col2:
-
-with open('template_csv/AMEX_user_template.csv') as f:
+with open('template_csv/AMEX_client_template.csv') as f:
     if col4.download_button('Example template', f, 'example_template.csv'):
         col4.write('Thanks for downloading!')
+
+with open('template_csv/Slawa_Loev.csv') as s:
+    if col4.download_button('Slawa_new_customer', s, 'Slawa_Loev.csv'):
+        col4.write('Thanks for downloading!')
+
+with open('template_csv/Sjoerd_de_Wit.csv') as w:
+    if col4.download_button('Sjoerd_new_customer', w, 'Sjoerd_de_Wit.csv'):
+        col4.write('Thanks for downloading!')
+
+
 
 #st.write('\n\n-------------')
 
@@ -87,11 +94,11 @@ if submitted:
 
         st.markdown("<h3 style='text-align: center; color: black;'>Thank you for submitting</h3>", unsafe_allow_html=True)
         st.write('-------------')
-        st.markdown("<h5 style='text-align: center; color: black;'>Customer with ID:</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: center; color: black;'>Potential customer:</h5>", unsafe_allow_html=True)
 
         if predictions['output'] == 'defaulter':
 
-            html_str_custID = f"<h6 style='text-align: center; color: grey;'>{predictions['customer_ID']}</h6>"
+            html_str_custID = f"<h6 style='text-align: center; color: grey;'>{uploaded_csv_file.name[:-4].replace('_',' ')}</h6>"
             st.markdown(html_str_custID, unsafe_allow_html=True)
             st.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
             html_str_output = f"<h3 style='text-align: center; color: red;'>not pay you back</h3>"
@@ -102,7 +109,7 @@ if submitted:
 
 
         else:
-            html_str_custID = f"<h6 style='text-align: center; color: grey;'>{predictions['customer_ID']}</h6>"
+            html_str_custID = f"<h6 style='text-align: center; color: grey;'>{uploaded_csv_file.name[:-4].replace('_',' ')}</h6>"
             st.markdown(html_str_custID, unsafe_allow_html=True)
             st.markdown("<h5 style='text-align: center; color: black;'>will ... </h5>", unsafe_allow_html=True)
             html_str_output = f"<h5 style='text-align: center; color: green;'>pay you back</h5>"
