@@ -78,7 +78,7 @@ def data_agg(df): ## pass uploaded data
 
 # make shap plot
 def make_shap_plot(customer_data):
-    data = pd.read_csv('uploaded csv file')
+    data = pd.read_csv(customer_data)
     X_pred_agg = data_agg(data).drop(columns=['customer_ID'])
 
     #load the explainer - sent as a separate file, to be loaded in repository
