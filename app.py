@@ -4,9 +4,10 @@ from PIL import Image
 from pandas import read_csv
 import requests
 import json
-from shap import shap
+from shap.shap import make_shap_plot, data_agg
 import matplotlib.pyplot as plt
-
+import joblib
+import shap
 
 
 st.set_page_config(page_title="AMEX Oracle", page_icon='',layout="wide")
@@ -106,8 +107,9 @@ if submitted:
 
     else:
 
-        data = read_csv(uploaded_csv_file, index_col=0).fillna('').to_dict(orient='records')[0]
-        params_user = {"data": json.dumps(data)}
+        data = read_csv(uploaded_csv_file, index_col=0)
+        data_dict = data.fillna('').to_dict(orient='records')[0]
+        params_user = {"data": json.dumps(data_dict)}
 
         predictions = requests.get(url_api,
                                     params = params_user).json()
@@ -137,7 +139,16 @@ if submitted:
                 col2.write('-------------')
                 col2.image(default_shap, use_column_width=True)
                 col2.write('-------------')
-                shap.make_shap_plot(uploaded_csv_file)
+                #make_shap_plot(data) ## see here: https://github.com/slundberg/shap/issues/1417 for debugging
+                X_pred_agg = data_agg(data).drop(columns=['customer_ID'])
+
+                #load the explainer - sent as a separate file, to be loaded in repository
+                ex_filename = 'explainer.bz2'
+                ex2 = joblib.load(filename=ex_filename)
+
+                shap_values = ex2(X_pred_agg,check_additivity=False)
+
+                shap.plots.waterfall(shap_values[0])
                 st.pyplot(bbox_inches='tight')
                 plt.clf()
 
@@ -156,7 +167,16 @@ if submitted:
                 col2.write('-------------')
                 col2.image(pay_shap, use_column_width=True)
                 col2.write('-------------')
-                shap.make_shap_plot(uploaded_csv_file)
+                #make_shap_plot(data)
+                X_pred_agg = data_agg(data).drop(columns=['customer_ID'])
+
+                #load the explainer - sent as a separate file, to be loaded in repository
+                ex_filename = 'explainer.bz2'
+                ex2 = joblib.load(filename=ex_filename)
+
+                shap_values = ex2(X_pred_agg,check_additivity=False)
+
+                shap.plots.waterfall(shap_values[0])
                 st.pyplot(bbox_inches='tight')
                 plt.clf()
 
