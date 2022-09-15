@@ -78,8 +78,9 @@ def data_agg(df): ## pass uploaded data
 
 # make shap plot
 def make_shap_plot(customer_data):
-    data = pd.read_csv(customer_data)
-    X_pred_agg = data_agg(data).drop(columns=['customer_ID'])
+
+    #data = pd.read_csv(customer_data, index_col=0)
+    X_pred_agg = data_agg(customer_data).drop(columns=['customer_ID'])
 
     #load the explainer - sent as a separate file, to be loaded in repository
     ex_filename = 'explainer.bz2'
