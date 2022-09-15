@@ -4,10 +4,15 @@ from PIL import Image
 from pandas import read_csv
 import requests
 import json
-from shap.shap import make_shap_plot, data_agg
+from shap_folder.shap_script import make_shap_plot, data_agg
 import matplotlib.pyplot as plt
 import joblib
-import shap
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
+
+# from catboost import *
+
 
 
 st.set_page_config(page_title="AMEX Oracle", page_icon='',layout="wide")
@@ -93,9 +98,6 @@ with col8.form("my_form"):
 
     submitted = st.form_submit_button("Get prediction!")
 
-default_shap = Image.open('team_imgs/sjoerd_shap_default.png')
-pay_shap = Image.open('team_imgs/slawa_shap_payer.png')
-
 
 if submitted:
 
@@ -137,20 +139,7 @@ if submitted:
                 st.markdown(html_str_proba, unsafe_allow_html=True)
                 col1,col2,col3 = st.columns([1,3,1])
                 col2.write('-------------')
-                col2.image(default_shap, use_column_width=True)
-                col2.write('-------------')
-                #make_shap_plot(data) ## see here: https://github.com/slundberg/shap/issues/1417 for debugging
-                X_pred_agg = data_agg(data).drop(columns=['customer_ID'])
 
-                #load the explainer - sent as a separate file, to be loaded in repository
-                ex_filename = 'explainer.bz2'
-                ex2 = joblib.load(filename=ex_filename)
-
-                shap_values = ex2(X_pred_agg,check_additivity=False)
-
-                shap.plots.waterfall(shap_values[0])
-                st.pyplot(bbox_inches='tight')
-                plt.clf()
 
             else:
 
@@ -165,20 +154,13 @@ if submitted:
                 st.markdown(html_str_proba, unsafe_allow_html=True)
                 col1,col2,col3 = st.columns([1,3,1])
                 col2.write('-------------')
-                col2.image(pay_shap, use_column_width=True)
-                col2.write('-------------')
-                #make_shap_plot(data)
-                X_pred_agg = data_agg(data).drop(columns=['customer_ID'])
 
-                #load the explainer - sent as a separate file, to be loaded in repository
-                ex_filename = 'explainer.bz2'
-                ex2 = joblib.load(filename=ex_filename)
 
-                shap_values = ex2(X_pred_agg,check_additivity=False)
+            make_shap_plot(data)
+            col2.pyplot(bbox_inches='tight')
+            plt.clf()
 
-                shap.plots.waterfall(shap_values[0])
-                st.pyplot(bbox_inches='tight')
-                plt.clf()
+            col2.write('-------------')
 
 
 col1,col2,col3 = st.columns([1,1,1])

@@ -78,12 +78,12 @@ def data_agg(df): ## pass uploaded data
 
 # make shap plot
 def make_shap_plot(customer_data):
-
-    #data = pd.read_csv(customer_data, index_col=0)
+    #make_shap_plot(data) ## see here: https://github.com/slundberg/shap/issues/1417 for debugging
     X_pred_agg = data_agg(customer_data).drop(columns=['customer_ID'])
 
     #load the explainer - sent as a separate file, to be loaded in repository
     ex_filename = 'explainer.bz2'
+
     ex2 = joblib.load(filename=ex_filename)
 
     shap_values = ex2(X_pred_agg,check_additivity=False)
