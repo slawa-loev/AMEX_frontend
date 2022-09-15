@@ -4,6 +4,9 @@ import shap
 import joblib
 from sklearn.preprocessing import OrdinalEncoder
 
+
+
+
 # aggregatre data
 def get_difference(data, num_features):
     df1 = []
@@ -78,7 +81,7 @@ def data_agg(df): ## pass uploaded data
 
 # make shap plot
 def make_shap_plot(customer_data):
-    #make_shap_plot(data) ## see here: https://github.com/slundberg/shap/issues/1417 for debugging
+
     X_pred_agg = data_agg(customer_data).drop(columns=['customer_ID'])
 
     #load the explainer - sent as a separate file, to be loaded in repository
@@ -88,4 +91,4 @@ def make_shap_plot(customer_data):
 
     shap_values = ex2(X_pred_agg,check_additivity=False)
 
-    return shap.plots.waterfall(shap_values[0])
+    return shap.plots.waterfall(shap_values[0]), shap_values

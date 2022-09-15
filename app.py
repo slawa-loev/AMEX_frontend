@@ -15,16 +15,9 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
 
-st.set_page_config(page_title="AMEX Oracle", page_icon='',layout="wide")
+st.set_page_config(page_title="AMEX ORACLE", page_icon='',layout="wide")
 
 amexblue = 'color: #006fcf;'
-font1 = 'font-family: Helvetica;'
-font2 = 'font-family: sans-serif;'
-font3 = 'font-family: Helvetica-Neue;'
-font4 = 'font-family: BentoSans;'
-font5 = 'font-family: Garamond;'
-amexlogofont = 'font-family: Handel Gothic D Bold;'
-cust_font = open("style.css").read()
 
 with open( "style.css" ) as css:
     st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
@@ -46,13 +39,13 @@ col1.image(amex_logo,
 
 
 
-col2.markdown(f"<h4 style='text-align: center;{font5} {amexblue}'>Will your credit card customer pay you back?</h4>", unsafe_allow_html=True)
+col2.markdown(f"<h4 style='text-align: center; {amexblue}'>Will your credit card customer pay you back?</h4>", unsafe_allow_html=True)
 
 
 
 
-col2.markdown(f"<h5 style='text-align: center;{font2} color: #334251;'>Dear American Express managment, </h5>", unsafe_allow_html=True)
-col2.markdown(f"<h6 style='text-align: center;{font2} color: #334251;'>Please upload a CSV file in the following format: </h6>", unsafe_allow_html=True)
+col2.markdown(f"<h5 style='text-align: center; color: #334251;'>Dear American Express managment, </h5>", unsafe_allow_html=True)
+col2.markdown(f"<h6 style='text-align: center; color: #334251;'>Please upload a CSV file in the following format: </h6>", unsafe_allow_html=True)
 
 
 with open('template_csv/template.csv') as f:
@@ -61,19 +54,24 @@ with open('template_csv/template.csv') as f:
 
 
 
-col2.markdown(f"<h6 style='text-align: left;{font2} color: #334251;'>Features should be anonymized and normalized, and fall into the following general categories: </h6>", unsafe_allow_html=True)
-col2.markdown(f"<h6 style='text-align: left;{font2} color: #334251;'>D_* = Delinquency variables </h6>", unsafe_allow_html=True)
-col2.markdown(f"<h6 style='text-align: left;{font2} color: #334251;'>S_* = Spend variables </h6>", unsafe_allow_html=True)
-col2.markdown(f"<h6 style='text-align: left;{font2} color: #334251;'>P_* = Payment variables </h6>", unsafe_allow_html=True)
-col2.markdown(f"<h6 style='text-align: left;{font2} color: #334251;'>B_* = Balance variables </h6>", unsafe_allow_html=True)
-col2.markdown(f"<h6 style='text-align: left;{font2} color: #334251;'>R_* = Risk variables </h6>", unsafe_allow_html=True)
+col2.markdown(f"<h6 style='text-align: left; color: #334251;'>Features should be anonymized and normalized, and fall into the following general categories: </h6>", unsafe_allow_html=True)
+col2.markdown(f"<h7 style='text-align: left; color: #334251;'>D_* = __Delinquency variables__ have to do with the customer being late in paying their debt. </h6>", unsafe_allow_html=True)
+
+col2.markdown(f"<h7 style='text-align: left; color: #334251;'>S_* = __Spend variables__ have to do with the customer's spending behavior. </h6>", unsafe_allow_html=True)
+
+col2.markdown(f"<h7 style='text-align: left; color: #334251;'>P_* = __Payment variables__ have to do with the customer's behavior when paying back debt. </h6>", unsafe_allow_html=True)
+
+col2.markdown(f"<h7 style='text-align: left; color: #334251;'>B_* = __Balance variables__ have to do with the customer's account balance. </h6>", unsafe_allow_html=True)
+
+col2.markdown(f"<h7 style='text-align: left; color: #334251;'>R_* = __Risk variables__ have to do with other factors that increase the default risk of a customer. </h6>", unsafe_allow_html=True)
+
 
 st.write('-------------')
 
 
 
 
-st.markdown(f"<h6 style='text-align: center;{font2} color: #334251;'>You can use these examples to try out the ORACLE: </h6>", unsafe_allow_html=True)
+st.markdown(f"<h6 style='text-align: center; color: #334251;'>You can use these examples to try out the ORACLE: </h6>", unsafe_allow_html=True)
 
 
 col3, col4, col5, col6 = st.columns([8, 5, 5, 8])
@@ -137,7 +135,7 @@ if submitted:
                 st.markdown("<h5 style='text-align: center; color: black;'>With probability of:</h5>", unsafe_allow_html=True)
                 html_str_proba = f"<h1 style='text-align: center; color: red;'>{float(predictions['probability'])*100} %</h1>"
                 st.markdown(html_str_proba, unsafe_allow_html=True)
-                col1,col2,col3 = st.columns([1,3,1])
+                col1,col2,col3 = st.columns([1,5,1])
                 col2.write('-------------')
 
 
@@ -152,16 +150,25 @@ if submitted:
                 st.markdown("<h5 style='text-align: center; color: black;'>With probability of:</h5>", unsafe_allow_html=True)
                 html_str_proba = f"<h1 style='text-align: center; color: green;'>{float(predictions['probability'])*100} %</h1>"
                 st.markdown(html_str_proba, unsafe_allow_html=True)
-                col1,col2,col3 = st.columns([1,3,1])
+                col1,col2,col3 = st.columns([1,5,1])
                 col2.write('-------------')
 
-
-            make_shap_plot(data)
-            col2.pyplot(bbox_inches='tight')
+            col2.write("""
+                       Below is a graph visualizing the impact of various pieces of information about
+                       the customer (features) on the ORACLE's prediction.
+                       The 10 most important features are seperately displayed.
+                       Features with D, S, P, B, R relate to
+                       delinquency, spending, payment, balance and risk variables respectively (see above).
+                       The bigger a bar,
+                       the more influence a feature had on the ORACLE's prediction. If a bar is red,
+                       then this feature speaks in favor of the customer not paying back.
+                       If a feature is blue, then this feature speaks in favor of a customer paying back.
+                       """)
+            shap_graph, shap_values = make_shap_plot(data)
+            col2.pyplot(shap_graph, bbox_inches='tight')
             plt.clf()
-
+            #col2.write("Here is a graph visualizing the impact various pieces of information about the customer (features) had on the ORACLE's prediction.")
             col2.write('-------------')
-
 
 col1,col2,col3 = st.columns([1,1,1])
 col2.markdown(f"<h1 style='text-align: center; color: {amexblue};'> </h1>", unsafe_allow_html=True)
@@ -173,45 +180,6 @@ col2.markdown(f"<h6 style='text-align: center; color: {amexblue};'>Powered by</h
 
 
 team_img = Image.open('team_imgs/team.jpg')
-# slawa_img = Image.open('team_imgs/slawa.jpeg')
-# yuzhe_img = Image.open('team_imgs/yuzhe.jpeg')
-# sjoerd_img = Image.open('team_imgs/sjoerd.jpeg')
-# lewagon_img = Image.open('team_imgs/lewagon.png')
+
 
 col2.image(team_img, caption="", use_column_width=True)
-
-
-
-
-
-## CUSTOM FONT EXPERIMENTS
-# css = open( "style.css" )
-# st.markdown( f'<style>{css.read()} hello </style>' , unsafe_allow_html= True)
-
-
-
-# st.markdown(""" <style> .font {
-# font-size:50px ; font-family: 'Bento Sans'; color: #FF9633;}
-# </style> """, unsafe_allow_html=True)
-# st.markdown('<p class="font">Guess the object Names</p>', unsafe_allow_html=True)
-
-# st.markdown(
-#         """
-#         <style>
-# @font-face {
-#   font-family: 'sff';
-#   font-style: normal;
-#   font-weight: 400;
-#   src: url('sffb.ttf');
-# }
-
-#     html, body, [class*="css"]  {
-#     font-family: 'sff';
-#     font-size: 48px;
-#     }
-#     </style>
-
-#     """,
-#         unsafe_allow_html=True,
-#     )
-# st.markdown("hello")
