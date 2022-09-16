@@ -36,6 +36,7 @@ streamlit
 # six>=1.14
 joblib
 shap
-matplotlib.pyplot
+matplotlib==3.1.3
+
 # memoized-property
 # termcolor
