@@ -1,12 +1,10 @@
-from asyncore import read
 import streamlit as st
 from PIL import Image
 from pandas import read_csv
 import requests
 import json
-from shap_folder.shap_script import make_shap_plot, data_agg
+from shap_folder.shap_script import make_shap_plot
 import matplotlib.pyplot as plt
-import joblib
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
