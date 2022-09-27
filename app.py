@@ -168,12 +168,23 @@ if submitted:
             #col2.write("Here is a graph visualizing the impact various pieces of information about the customer (features) had on the ORACLE's prediction.")
             col2.write('-------------')
 
-col1,col2,col3 = st.columns([1,1,1])
-col2.markdown(f"<h1 style='text-align: center; color: {amexblue};'> </h1>", unsafe_allow_html=True)
-col2.markdown(f"<h1 style='text-align: center; color: {amexblue};'> </h1>", unsafe_allow_html=True)
 
 
-col2.markdown(f"<h6 style='text-align: center; color: {amexblue};'>Powered by</h6>", unsafe_allow_html=True)
+st.write('')
+st.write('')
+
+col1,col2,col3 = st.columns([1,3,1])
+
+col2.markdown(f"<h6 style='text-align: center; color: {amexblue};'>Want to know more?</h6>", unsafe_allow_html=True)
+col2.markdown(f"<h6 style='text-align: center; color: {amexblue};'>Check out our <a href='https://youtu.be/1PDEGIA8l0s'>live product presentation</a> and <a href='https://docs.google.com/presentation/d/1aI1Ao-DYnSMJmHNUE9WqXQ5i7L-bUfHRrGfkuaiJX34/edit?usp=sharing'>slide deck</a>.</h6>", unsafe_allow_html=True)
+
+
+col1,col2,col3 = st.columns([1,2,1])
+
+col2.markdown(f"<h1 style='text-align: center; color: {amexblue};'> </h1>", unsafe_allow_html=True)
+col2.markdown(f"<h1 style='text-align: center; color: {amexblue};'> </h1>", unsafe_allow_html=True)
+col2.markdown(f"<h6 style='text-align: left; color: {amexblue};'>Powered by</h6>", unsafe_allow_html=True)
+
 
 
 
